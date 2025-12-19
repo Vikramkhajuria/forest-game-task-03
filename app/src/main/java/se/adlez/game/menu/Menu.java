@@ -1,10 +1,12 @@
 package se.adlez.game.menu;
 
+import se.adlez.game.model.Forest;
 import java.util.Scanner;
 
 public class Menu {
 
-    private Scanner scanner = new Scanner(System.in);
+    private final Scanner scanner = new Scanner(System.in);
+    private Forest forest;
 
     public void start(){
         boolean running = true;
@@ -17,9 +19,15 @@ public class Menu {
 
             switch (choice){
                 case "1":
-                    continue;
+                     forest = new Forest();
+                    break;
                 case "2":
-                    continue;
+                    if (forest == null) {
+                        System.out.println("Create a forest first (1).");
+                    } else {
+                        System.out.println(forest.getGamePlan());
+                    }
+                    break;
                 case "3":
                     continue;
                 case "4":
@@ -32,6 +40,8 @@ public class Menu {
                     continue;
                 case "m":
                     menu();
+                    break;
+
                 case "q":
                 case "Q":
                     running = false;
