@@ -2,6 +2,7 @@ package se.adlez.game.menu;
 
 import se.adlez.game.model.Forest;
 import java.util.Scanner;
+import se.adlez.game.model.* ;
 
 public class Menu {
 
@@ -20,6 +21,8 @@ public class Menu {
             switch (choice){
                 case "1":
                      forest = new Forest();
+                     System.out.println("Forest created");
+
                     break;
                 case "2":
                     if (forest == null) {
@@ -29,15 +32,27 @@ public class Menu {
                     }
                     break;
                 case "3":
-                    continue;
+                    if (forest == null) {
+                        System.out.println("Create a forest first (1).");
+                    } else {
+                        addItemFlow();
+                    }
+                    break;
+
                 case "4":
-                    continue;
+                    if (forest == null) {
+                        System.out.println("Create a forest first (1).");
+                    } else {
+                        System.out.print(forest.listItems());
+                    }
+                    break;
+
                 case "5":
-                    continue;
+
                 case "6":
-                    continue;
+
                 case "7":
-                    continue;
+
                 case "m":
                     menu();
                     break;
@@ -67,4 +82,41 @@ public class Menu {
                 "| qQ) Quit");
 
     }
-}
+    private void addItemFlow(){
+        System.out.print("Add FirTree 🌲 (1) or Rock 🪨 (2): ");
+        String itemChoice = scanner.nextLine();
+
+        Item item;
+        if  (itemChoice.equals("1")){
+            item = new FirTree();
+        } else if (itemChoice.equals("2")){
+            item = new Rock();
+        } else {
+            System.out.println("Invalid choice");
+            return;
+        }
+
+        System.out.print("Set position x y (separate by space):");
+        String[] parts = scanner.nextLine().trim().split("\\s+");
+        if (parts.length != 2) {
+            System.out.println("Invalid position format. Example: 5 5");
+            return;
+        }
+
+        int x, y;
+        try {
+            x = Integer.parseInt(parts[0]);
+            y = Integer.parseInt(parts[1]);
+        } catch (NumberFormatException e) {
+            System.out.println("Position must be numbers. Example: 5 5");
+            return;
+        }
+
+        Position pos = new Position(x, y);
+        forest.addItem(item, pos);
+
+        System.out.println("Added item to the forest: " + item + " " + pos);
+    }
+
+    }
+
