@@ -50,7 +50,15 @@ public class Menu {
                     addRandomItems();
                     break;
                 case "6":
-
+                    if (forest == null) {
+                        System.out.println("Create a forest first (1).");
+                    } else {
+                        forest.addPlayerItem(new Robot(new Position(1, 1)));
+                        forest.addHunterItem(new Wolf(new Position(8, 5)));
+                        forest.addHomeItem(new Castle(new Position(5, 8)));
+                        System.out.println("Added player, hunter and home.");
+                    }
+                    break;
                 case "7":
 
                 case "m":

@@ -4,6 +4,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Forest {
+    private AbstractMoveableItem player;
+    private AbstractMoveableItem hunter;
+    private AbstractMoveableItem home;
+
 
     private static final int WIDTH = 10;
     private static final int HEIGHT = 10;
@@ -61,5 +65,20 @@ public class Forest {
         }
         return sb.toString();
     }
+    public void addPlayerItem(AbstractMoveableItem player) {
+        this.player = player;
+        items.put(player.getPosition(), player);
+    }
+
+    public void addHunterItem(AbstractMoveableItem hunter) {
+        this.hunter = hunter;
+        items.put(hunter.getPosition(), hunter);
+    }
+
+    public void addHomeItem(AbstractMoveableItem home) {
+        this.home = home;
+        items.put(home.getPosition(), home);
+    }
+
 }
 
