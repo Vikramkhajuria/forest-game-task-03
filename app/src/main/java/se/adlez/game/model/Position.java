@@ -10,12 +10,12 @@ public class Position {
     }
     public int getX() {
         return x;
-        // incomplete , need to come back
+
     }
 
     public int getY() {
         return y;
-        // incomplete, need to come back
+
     }
     public void setX(int x) {
         this.x = x;

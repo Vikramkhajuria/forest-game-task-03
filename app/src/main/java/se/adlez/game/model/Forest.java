@@ -41,5 +41,25 @@ public class Forest {
 
         return sb.toString();
     }
+
+    public void addItem(Item item, Position position) {
+        items.put(position, item);
+    }
+
+    public boolean tryAddItem(Item item, Position position) {
+        if (items.containsKey(position)) return false;
+        items.put(position, item);
+        return true;
+    }
+
+    public String listItems() {
+        if (items.isEmpty()) return "(no items)\n";
+
+        StringBuilder sb = new StringBuilder();
+        for (Map.Entry<Position, Item> entry : items.entrySet()) {
+            sb.append(entry.getKey()).append(" ").append(entry.getValue()).append("\n");
+        }
+        return sb.toString();
+    }
 }
 
