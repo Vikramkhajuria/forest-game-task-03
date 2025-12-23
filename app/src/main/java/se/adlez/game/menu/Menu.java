@@ -2,7 +2,8 @@ package se.adlez.game.menu;
 
 import se.adlez.game.model.Forest;
 import java.util.Scanner;
-import se.adlez.game.model.* ;
+import se.adlez.game.model.*;
+import java.util.Random;
 
 public class Menu {
 
@@ -38,7 +39,6 @@ public class Menu {
                         addItemFlow();
                     }
                     break;
-
                 case "4":
                     if (forest == null) {
                         System.out.println("Create a forest first (1).");
@@ -46,9 +46,9 @@ public class Menu {
                         System.out.print(forest.listItems());
                     }
                     break;
-
                 case "5":
-
+                    addRandomItems();
+                    break;
                 case "6":
 
                 case "7":
@@ -118,5 +118,42 @@ public class Menu {
         System.out.println("Added item to the forest: " + item + " " + pos);
     }
 
+    private void addRandomItems() {
+        if (forest == null) {
+            System.out.println("Create a forest first (1).");
+            return;
+        }
+
+        Random rnd = new Random();
+
+        int rocks = 0;
+        while (rocks < 5) {
+            int x = rnd.nextInt(10) + 1;   // 1..10
+            int y = rnd.nextInt(10) + 1;   // 1..10
+
+            Position pos = new Position(x, y);
+            Item item = new Rock();
+
+            if (forest.tryAddItem(item, pos)) {
+                System.out.println(item + " " + pos);
+                rocks++;
+            }
+        }
+
+        int trees = 0;
+        while (trees < 5) {
+            int x = rnd.nextInt(10) + 1;
+            int y = rnd.nextInt(10) + 1;
+
+            Position pos = new Position(x, y);
+            Item item = new FirTree();
+
+            if (forest.tryAddItem(item, pos)) {
+                System.out.println(item + " " + pos);
+                trees++;
+            }
+        }
     }
+
+}
 
