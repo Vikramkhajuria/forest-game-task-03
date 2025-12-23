@@ -60,6 +60,14 @@ public class Menu {
                     }
                     break;
                 case "7":
+                    if (forest == null) {
+                        System.out.println("Create a forest first (1).");
+                    } else if (forest.isGameOver()) {
+                        System.out.println("Game is already over. Create a new forest (1).");
+                    } else {
+                        playGame();
+                    }
+                    break;
 
                 case "m":
                     menu();
@@ -162,6 +170,29 @@ public class Menu {
             }
         }
     }
+    private void playGame() {
+        if (forest == null) return;
+
+        String choice;
+        do {
+            System.out.println(forest.getGamePlan());
+            System.out.println(forest.getStatus());
+
+            System.out.println("Move player left=a, right=d, up=w, down=s, quit=q.");
+            choice = scanner.nextLine().trim();
+
+            switch (choice) {
+                case "a": forest.movePlayer(new Position(-1, 0)); break;
+                case "d": forest.movePlayer(new Position(1, 0)); break;
+                case "w": forest.movePlayer(new Position(0, -1)); break;
+                case "s": forest.movePlayer(new Position(0, 1)); break;
+                case "q": System.out.println("Bye bye!"); break;
+                default: System.out.println("Invalid move."); break;
+            }
+
+        } while (!choice.equals("q") && !forest.isGameOver());
+    }
+
 
 }
 

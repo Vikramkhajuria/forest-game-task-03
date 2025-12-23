@@ -79,6 +79,57 @@ public class Forest {
         this.home = home;
         items.put(home.getPosition(), home);
     }
+    public boolean isGameOver() {
+        return gameOver;
+    }
+
+    public String getStatus() {
+        return status.toString();
+    }
+    public void movePlayer(Position relative) {
+        status = new StringBuilder();
+
+        if (player == null || home == null) {
+            status.append("Player/home not added. Use menu choice 6.\n");
+            return;
+        }
+
+        Position playerPos = player.getPosition();
+        Position newPos = new Position(playerPos);   // you need copy-constructor (see below)
+        newPos.move(relative);
+
+        // bounds check (1..10)
+        if (newPos.getX() < 1 || newPos.getX() > WIDTH || newPos.getY() < 1 || newPos.getY() > HEIGHT) {
+            status.append("Player could not move!\n");
+            return;
+        }
+
+        // reached home?
+        if (home.getPosition().equals(newPos)) {
+            items.remove(playerPos);
+            player.setPosition(newPos);
+            items.put(newPos, player);
+
+            status.append("Player reached home!\nGame is over!\n");
+            gameOver = true;
+            return;
+        }
+
+        // blocked by an item?
+        if (items.containsKey(newPos)) {
+            status.append("Player could not move!\n");
+            return;
+        }
+
+        // move (remove+re-add because Position is the key)
+        items.remove(playerPos);
+        player.setPosition(newPos);
+        items.put(newPos, player);
+
+        status.append("Player moved successfully!\n");
+    }
+
+
 
 }
 
