@@ -179,14 +179,20 @@ public class Menu {
             System.out.println(forest.getStatus());
 
             System.out.println("Move player left=a, right=d, up=w, down=s, quit=q.");
-            choice = scanner.nextLine().trim();
+            choice = scanner.nextLine().trim().toLowerCase();
 
-            switch (choice) {
-                case "a": forest.movePlayer(new Position(-1, 0)); break;
-                case "d": forest.movePlayer(new Position(1, 0)); break;
-                case "w": forest.movePlayer(new Position(0, -1)); break;
-                case "s": forest.movePlayer(new Position(0, 1)); break;
-                case "q": System.out.println("Bye bye!"); break;
+            if (choice.length() != 1) {
+                System.out.println("Invalid move.");
+                continue;
+            }
+            char c = choice.charAt(0);
+
+            switch (c) {
+                case 'a': forest.movePlayer(new Position(-1, 0)); break;
+                case 'd': forest.movePlayer(new Position(1, 0)); break;
+                case 'w': forest.movePlayer(new Position(0, -1)); break;
+                case 's': forest.movePlayer(new Position(0, 1)); break;
+                case 'q': System.out.println("Bye bye!"); break;
                 default: System.out.println("Invalid move."); break;
             }
 

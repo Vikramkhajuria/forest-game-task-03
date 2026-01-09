@@ -37,10 +37,11 @@ application {
     mainClass = 'se.adlez.game.menu.Main'
 }
 
-tasks.named('run') {
+tasks.named('run', JavaExec) {
     standardInput = System.in
+    jvmArgs "-Dfile.encoding=UTF-8"
     // Use JUnit Platform for unit tests.
-    useJUnitPlatform()
+
 }
 
 tasks.withType(JavaExec).configureEach {
