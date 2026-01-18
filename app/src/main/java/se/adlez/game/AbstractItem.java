@@ -1,4 +1,4 @@
-package se.adlez.game.model;
+package se.adlez.game;
 
 public abstract class AbstractItem implements Item {
 

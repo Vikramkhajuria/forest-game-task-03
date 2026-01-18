@@ -1,9 +1,11 @@
 package se.adlez.game.menu;
 
-import se.adlez.game.model.Forest;
+import se.adlez.game.Forest;
 import java.util.Scanner;
-import se.adlez.game.model.*;
+import se.adlez.game.*;
 import java.util.Random;
+import se.adlez.game.ForestToFile;
+import se.adlez.game.ForestToJson;
 
 public class Menu {
 
@@ -12,9 +14,9 @@ public class Menu {
 
     public void start(){
         boolean running = true;
-        menu();
 
         while(running){
+            menu();
             System.out.print("-----------------\n" +
                     " Enter your choice:\n");
             String choice = scanner.nextLine();
@@ -47,7 +49,11 @@ public class Menu {
                     }
                     break;
                 case "5":
-                    addRandomItems();
+                    if (forest == null) {
+                        System.out.println("Create a forest first (1).");
+                    } else {
+                        addRandomItems();
+                    }
                     break;
                 case "6":
                     if (forest == null) {
@@ -66,6 +72,36 @@ public class Menu {
                         System.out.println("Game is already over. Create a new forest (1).");
                     } else {
                         playGame();
+                    }
+                    break;
+                case "8":
+                    if (forest == null) {
+                        System.out.println("Create a forest first (1).");
+                    } else {
+                        ForestToFile.save(forest, "forest.ser");
+                        System.out.println("Saved serialized forest to file 'forest.ser'.");
+                    }
+                    break;
+
+                case "9":
+                    forest = ForestToFile.load("forest.ser");
+                    System.out.println("Loaded serialized forest from file 'forest.ser'.");
+                    break;
+
+                case "p":
+                    if (forest == null) {
+                        System.out.println("Create a forest first (1).");
+                    } else {
+                        System.out.println(ForestToJson.toJson(forest));
+                    }
+                    break;
+
+                case "s":
+                    if (forest == null) {
+                        System.out.println("Create a forest first (1).");
+                    } else {
+                        ForestToJson.saveAsJson(forest, "forest.json");
+                        System.out.println("Saved JSON data to 'forest.json'.");
                     }
                     break;
 
@@ -94,6 +130,10 @@ public class Menu {
                 "| 5) Add 5 trees and 5 stones to the forest\n" +
                 "| 6) Add player, hunter and the home\n" +
                 "| 7) Play game\n" +
+                "| 8) Save game to file\n" +
+                "| 9) Load game from file\n" +
+                "| p) Print game as JSON\n" +
+                "| s) Save game as JSON\n" +
                 "| m) Print menu\n" +
                 "| qQ) Quit");
 

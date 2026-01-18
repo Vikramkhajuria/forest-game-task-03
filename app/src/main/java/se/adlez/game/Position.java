@@ -1,6 +1,8 @@
-package se.adlez.game.model;
+package se.adlez.game;
+import java.io.Serializable;
 
-public class Position {
+public class Position implements Serializable {
+    private static final long serialVersionUID = 1L;
     private int x;
     private int y;
 

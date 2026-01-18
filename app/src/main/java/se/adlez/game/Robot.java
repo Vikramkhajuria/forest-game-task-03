@@ -1,7 +1,7 @@
-package se.adlez.game.model;
+package se.adlez.game;
 
 public class Robot extends AbstractMoveableItem {
     public Robot(Position position) {
-        super("Robot", "\uD83E\uDD16", position);
+        super("Robot", "🤖", position);
     }
 }

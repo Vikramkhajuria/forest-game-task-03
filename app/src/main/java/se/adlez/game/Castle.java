@@ -1,7 +1,7 @@
-package se.adlez.game.model;
+package se.adlez.game;
 
 public class Castle extends AbstractMoveableItem {
     public Castle(Position position) {
-        super("Castle", "\uD83C\uDFF0", position);
+        super("Castle", "🏠", position);
     }
 }

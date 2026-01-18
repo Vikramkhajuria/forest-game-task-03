@@ -1,10 +1,12 @@
-package se.adlez.game.model;
+package se.adlez.game;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
+import java.io.Serializable;
 
-public class Forest {
+public class Forest implements Serializable {
+    private static final long serialVersionUID = 1L;
     private AbstractMoveableItem player;
     private AbstractMoveableItem hunter;
     private AbstractMoveableItem home;
@@ -13,10 +15,15 @@ public class Forest {
     private static final int HEIGHT = 10;
 
     private final Map<Position, Item> items = new HashMap<>();
-    private final Random rnd = new Random();
+    private transient Random rnd = new Random();
 
     private boolean gameOver = false;
     private StringBuilder status = new StringBuilder();
+
+    private void ensureRnd() {
+        if (rnd == null) rnd = new Random();
+    }
+
 
     public Forest() {
         init();
@@ -92,8 +99,12 @@ public class Forest {
     public String getStatus() {
         return status.toString();
     }
-
+    public Map<Position, Item> getItemsSnapshot() {
+        return new HashMap<>(items);
+    }
     public void movePlayer(Position relative) {
+        ensureRnd();
+        if (gameOver) return;
         status = new StringBuilder();
 
         if (gameOver) {
@@ -110,13 +121,13 @@ public class Forest {
         Position newPos = new Position(playerPos);
         newPos.move(relative);
 
-        // bounds check (1..10)
+
         if (!isInside(newPos)) {
             status.append("Player could not move!\n");
             return;
         }
 
-        // player walks onto wolf => lose
+
         if (hunter.getPosition().equals(newPos)) {
             items.remove(playerPos);
             player.setPosition(newPos);
@@ -128,7 +139,7 @@ public class Forest {
             return;
         }
 
-        // reached home => win
+
         if (home.getPosition().equals(newPos)) {
             items.remove(playerPos);
             player.setPosition(newPos);
@@ -140,31 +151,31 @@ public class Forest {
             return;
         }
 
-        // blocked by other item (tree/rock/etc)
+
         if (items.containsKey(newPos)) {
             status.append("Player could not move!\n");
             return;
         }
 
-        // move player (remove+re-add because Position is a key in the map)
+
         items.remove(playerPos);
         player.setPosition(newPos);
         items.put(newPos, player);
 
         status.append("Player moved successfully!\n");
 
-        // hunter moves after player (only if game not ended)
+
         moveHunter();
     }
 
-    // -------------------------
+
     // Hunter logic (Requirement 7)
-    // -------------------------
+
 
     private void moveHunter() {
         if (gameOver) return;
 
-        // 30% chance: hunter does not move (adds variety)
+
         if (rnd.nextInt(100) < 30) {
             status.append("Hunter is lurking and not moving...\n");
             return;
@@ -173,7 +184,7 @@ public class Forest {
         Position hunterPos = hunter.getPosition();
         Position playerPos = player.getPosition();
 
-        // Simple "semi-smart": step closer in x or y
+
         Position step = chooseStepTowards(hunterPos, playerPos);
 
         Position newHunterPos = new Position(hunterPos);
@@ -184,7 +195,7 @@ public class Forest {
             return;
         }
 
-        // If hunter moves onto player => lose
+
         if (newHunterPos.equals(playerPos)) {
             items.remove(hunterPos);
             hunter.setPosition(newHunterPos);
@@ -196,14 +207,14 @@ public class Forest {
             return;
         }
 
-        // Hunter cannot walk into trees/rocks/home (you can change this rule if you want)
+
         if (items.containsKey(newHunterPos)) {
             status.append("Hunter is coming closer...\n");
             status.append("...but something blocks the way.\n");
             return;
         }
 
-        // Move hunter
+
         items.remove(hunterPos);
         hunter.setPosition(newHunterPos);
         items.put(newHunterPos, hunter);
@@ -216,10 +227,9 @@ public class Forest {
     }
 
     private Position chooseStepTowards(Position from, Position to) {
-        int dx = Integer.compare(to.getX(), from.getX()); // -1,0,1
-        int dy = Integer.compare(to.getY(), from.getY()); // -1,0,1
+        int dx = Integer.compare(to.getX(), from.getX());
 
-        // Prefer moving in the axis with bigger distance
+
         int distX = Math.abs(to.getX() - from.getX());
         int distY = Math.abs(to.getY() - from.getY());
 
@@ -228,7 +238,7 @@ public class Forest {
         } else if (distY > distX) {
             return new Position(0, dy);
         } else {
-            // equal: randomly pick x or y
+
             return rnd.nextBoolean() ? new Position(dx, 0) : new Position(0, dy);
         }
     }

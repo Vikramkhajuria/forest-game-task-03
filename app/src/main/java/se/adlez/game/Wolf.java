@@ -1,7 +1,7 @@
-package se.adlez.game.model;
+package se.adlez.game;
 
 public class Wolf extends AbstractMoveableItem {
     public Wolf(Position position) {
-        super("Wolf", "\uD83D\uDC3A", position); // 🐺
+        super("Wolf", "🐺", position);
     }
 }

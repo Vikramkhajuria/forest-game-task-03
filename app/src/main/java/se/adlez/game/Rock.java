@@ -1,7 +1,7 @@
-package se.adlez.game.model;
+package se.adlez.game;
 
 public class Rock extends AbstractItem {
     public Rock () {
-        super ("Rock", "\uD83E\uDEA8");
+        super("Rock", "🪨");
     }
 }
