@@ -228,6 +228,7 @@ public class Forest implements Serializable {
 
     private Position chooseStepTowards(Position from, Position to) {
         int dx = Integer.compare(to.getX(), from.getX());
+        int dy = Integer.compare(to.getY(), from.getY());
 
 
         int distX = Math.abs(to.getX() - from.getX());
